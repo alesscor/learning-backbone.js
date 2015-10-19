@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning Backbone.js (and Shepherd.js)</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.1.0/js/tether.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.2.0/js/shepherd.min.js"></script>
+
+<!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+-->
+    <link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.2.0/css/shepherd-theme-arrows.min.css">
+
+    <style type="text/css">
+    body{
+        font-family: Play;
+    }
+/*    .example-step-extra-class{
+        background-color:#fff;
+        padding:2px;
+        border:solid #000 1px;
+        width: 250px;
+    }*/
+    #mainnav{
+        z-index: 0;
+    }
+    .narrow{
+        width: 400px;
+    }
+    </style>
+
+</head>
+<body>
+<nav id="mainnav" class="navbar navbar-inverse">
+    <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+            <div class="navbar-header">
+                <a class="navbar-brand example0" href="/">Home</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a class="example1" href="./organizer">Organizer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a class="some-doc" href="#" data-toggle="modal" data-target="#visiblestep">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+        <div class="page-header"><h1>Learning <span class="backbonejs">Backbone.js</span> and <span class="shepherdjs">Shepherd.js</span></h1></div>
+    </div>
+<footer class="footer">
+    <div class="container">
+        By <span class="my-hero">Alessandro Cordero Salazar</span> for learning only
+    </div>
+</footer>
+<script id="entry-template1" type="text/x-handlebars-template">
+<div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+        {{body}}
+    </div>
+</div>
+</script>
+
+<script id="entry-template2" type="text/x-handlebars-template">
+
+{{#each entries}}
+<div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+        {{body}}
+    </div>
+</div>
+{{/each}}
+
+</script>
+
+<script type="text/javascript">
+    function renderTemplate1(){
+        var data={title:"My title",body:"My body"};
+        var source=$("#entry-template1").html();
+        var template=Handlebars.compile(source);
+        $("body").html(template(data));
+    }
+    function renderTemplate2(){
+        var data={
+            entries:[
+                {title:"My title 1",body:"My body 1"},
+                {title:"My title 2",body:"My body 2"},
+                {title:"My title 3",body:"My body 3"}
+            ]
+        };
+        var source=$("#entry-template2").html();
+        var template=Handlebars.compile(source);
+        $("body").html(template(data));
+    }
+    // renderTemplate2();
+    tour=new Shepherd.Tour({
+            defaults:{
+                classes:"shepherd-theme-arrows",
+                scrollTo:true,
+                showCancelLink:true,
+                when: {
+                      show: function() {
+                        //this.id="modalbox";
+                        $(".shepherd-step").attr("id","visiblestep").addClass("modalx");
+                        console.log(this);
+                      },
+                      hide: function() {
+                        //this.id="modalbox";
+                        $(".shepherd-step").attr("id","exvisiblestep").removeClass("modalx");
+                        console.log(this);
+                      }
+                }
+            }
+    });/*
+    tour.addStep('step 1', {
+      text: 'Helps you get some documentation.',
+      attachTo: '.some-doc',
+      buttons: [
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    tour.addStep('step 2', {
+      text: 'Experiment using <code>shepherd.js</code> (and <code>tether.js</code>).',
+      attachTo: '.example0',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    tour.addStep('step 3', {
+      text: 'Experiment using <code>backbone.js</code>.',
+      attachTo: '.example1',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });*/
+    tour.addStep('step4', {
+      title:"On Backbone.js (1/2)",
+      text: '<strong>Backbone.js <3<3<3<3<3.</strong> blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah1 blah1 blah1 ',
+      classes:"shepherd-theme-arrows narrow",
+      attachTo: '.backbonejs',
+      buttons: [
+        // {
+        //   text: 'Back',
+        //   action: tour.back
+        // },
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    tour.addStep('step4_1', {
+      title:"On Backbone.js (2/2)",
+      text: 'Blah2 blah2 blah blah blah blah blah blah blah blah blah blah blah blah blah blah2 blah2 blah2.',
+      classes:"shepherd-theme-arrows narrow",
+      attachTo: '.backbonejs',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    tour.addStep('step5', {
+      title:"On Shepherd.js",
+      text: '<strong>Shepherd.js <3<3<3<3<3.</strong> blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah <em>blah</em> blah blah blah blah blah blah blah blah blah blah blah blah blah blah <em>blah</em> blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah',
+      classes:"shepherd-theme-arrows narrow",
+      attachTo: '.shepherdjs',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    tour.addStep('step6', {
+      title:"On Alessandro Cordero",
+      text: 'Because <strong>Alessandro</strong> is my hero.',
+      attachTo: '.my-hero',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Done',
+          action: tour.hide
+        }
+      ]
+    });
+    $("a.some-doc").bind("click",function(e){
+        tour.start();
+    }
+    );
+</script>
+</body>
+</html>

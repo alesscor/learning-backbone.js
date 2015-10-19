@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning Backbone.js (and bootstraptour.js)</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js"></script>
+
+<!-- shepherd -->
+  <!--
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.1.0/js/tether.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.2.0/js/shepherd.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.2.0/css/shepherd-theme-arrows.min.css">
+   -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- bootstraptour.js -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.1/js/bootstrap-tour.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.1/css/bootstrap-tour.min.css" rel="stylesheet">
+
+
+    <style type="text/css">
+    body{
+        font-family: Play;
+    }
+/*    .example-step-extra-class{
+        background-color:#fff;
+        padding:2px;
+        border:solid #000 1px;
+        width: 250px;
+    }*/
+    #mainnav{
+    }
+    .narrow{
+        width: 400px;
+    }
+    </style>
+
+</head>
+<body>
+<nav id="mainnav" class="navbar navbar-inverse">
+    <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+            <div class="navbar-header">
+                <a class="navbar-brand example0" href="/">Home</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a class="example1" href="./organizer">Organizer</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a class="some-doc" href="#" data-toggle="modal" data-target="#visiblestep">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+        <div class="page-header"><h1>Learning <span class="backbonejs">Backbone.js</span> and <span class="btour">Bootstrap-Tour.js</span></h1></div>
+    </div>
+<footer class="footer">
+    <div class="container">
+        By <span class="my-hero">Alessandro Cordero Salazar</span> for learning only
+    </div>
+</footer>
+<script id="entry-template1" type="text/x-handlebars-template">
+<div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+        {{body}}
+    </div>
+</div>
+</script>
+
+<script id="entry-template2" type="text/x-handlebars-template">
+
+{{#each entries}}
+<div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+        {{body}}
+    </div>
+</div>
+{{/each}}
+
+</script>
+
+<script type="text/javascript">
+    function renderTemplate1(){
+        var data={title:"My title",body:"My body"};
+        var source=$("#entry-template1").html();
+        var template=Handlebars.compile(source);
+        $("body").html(template(data));
+    }
+    function renderTemplate2(){
+        var data={
+            entries:[
+                {title:"My title 1",body:"My body 1"},
+                {title:"My title 2",body:"My body 2"},
+                {title:"My title 3",body:"My body 3"}
+            ]
+        };
+        var source=$("#entry-template2").html();
+        var template=Handlebars.compile(source);
+        $("body").html(template(data));
+    }
+    // renderTemplate2();
+    var btour=new Tour({
+      backdrop:true,
+      delay:false,
+      steps:[
+        {
+          element:".backbonejs",
+          title:"On <em>Backbone.js</em> (1/2)",
+          content:"Test test test test test"
+        },
+        {
+          element:".backbonejs",
+          title:"On <em>Backbone.js</em> (2/2)",
+          content:"Test test <strong>test test</strong> test<br /> Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br /> Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test<br />Test Test Test Test Test Test Test Test Test Test Test Test Test <br />Test Test Test Test Test Test Test Test Test Test Test <br />"
+        },
+        {
+          element:".btour",
+          title:"On <em>bootstraptour.js</em> (2/2)",
+          content:"Test test <strong>test test</strong> test"
+        },
+        {
+          element:".my-hero",
+          title:"<strong>On Alessandro</strong>",
+          content:"Because he's my hero!!!!!!!!"
+        },
+        {
+          element:"li .some-doc",
+          title:"<strong>The documentation</strong>",
+          content:"Click here to display again this documentation"
+        }
+      ]
+    });
+    btour.init();
+    $("a.some-doc").bind("click",function(e){
+        // btour.start(true);
+        btour.restart();
+    }
+    );
+</script>
+</body>
+</html>

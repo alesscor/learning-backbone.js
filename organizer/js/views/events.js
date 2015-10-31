@@ -19,15 +19,19 @@ Organizer.NewEventView=Backbone.View.extend({
         // this is a shortcut ----|
         //                        v provided by Backbone.js
         var title=this.$("#event_title").val();
+        var description=this.$("#event_description").val();
         // builds the instance
         var model=new Organizer.Event();
+        // console.log("model.isValid() result:",model.isValid()); // to call from other place
         model.save({
-            title:title
+            title:title,
+            description:description
         },
         {
             success:function(){
                 Organizer.events.add(model);
                 self.el.reset();
+                self.$(".has-error").removeClass("has-error");
             },
             error:function(){
 
@@ -38,7 +42,7 @@ Organizer.NewEventView=Backbone.View.extend({
 });
 Organizer.EventsListView=Backbone.View.extend({
     initialize:function(){
-        console.log("view was created");
+        console.log("view was created",Organizer.formatDate(new Date($.now()), '%H:%m:%s'));
         this.listenTo(this.collection,"reset",this.render);
         this.listenTo(this.collection,"add",this.render);
         this.listenTo(this.collection,"remove",this.render);

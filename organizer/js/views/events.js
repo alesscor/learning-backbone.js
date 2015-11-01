@@ -1,3 +1,14 @@
+Organizer.ShowEventView=Backbone.View.extend({
+    initialize:function(){
+        this.render();
+    },
+    render:function(){
+        var template=Handlebars.compile($("#show-event-template").html());
+        this.$el.html(template(this.model));
+        $("#show-event").html(this.el);
+        return this;
+    }
+});
 Organizer.NewEventView=Backbone.View.extend({
     tagName:"form",
     initialize:function(){
@@ -25,7 +36,8 @@ Organizer.NewEventView=Backbone.View.extend({
         // console.log("model.isValid() result:",model.isValid()); // to call from other place
         model.save({
             title:title,
-            description:description
+            description:description,
+            position:Organizer.events.nextPosition()
         },
         {
             success:function(){
@@ -80,7 +92,8 @@ Organizer.EventView=Backbone.View.extend({
     tagName:"li",
     className:"list-group-item",
     events:{
-        "click a":"removeEvent"
+        "click a.btn-danger":"removeEvent",
+        "click .show":"showEvent"
     },
     removeEvent:function(e){
         var self=this;
@@ -93,12 +106,11 @@ Organizer.EventView=Backbone.View.extend({
             self.model.destroy();
             $("#theRemoveModal").modal("hide");
         });
-
-        // $("#myModal .modal-body").html("Are you sure you want to delete '"+this.model.getMeanTitle()+"'?");
-        /*
-            if(confirm("Are you sure you want to delete '"+this.model.getMeanTitle()+"'")){
-                this.model.destroy();
-            }
-        */
+    },
+    showEvent:function(e){
+        e.preventDefault();
+        var position=$(e.currentTarget).data("position");
+        Organizer.router.navigate("events/"+position,{trigger:true});
     }
+
 });

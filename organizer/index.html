@@ -51,6 +51,9 @@
 
     <h2>List of events</h2>
     <div id="event-list"></div>
+
+
+    <div id="show-event"></div>
 </div>
 
 <!-- should not be visible -->
@@ -64,7 +67,7 @@
 
 
 <script id="event-template" type="text/x-handlebars-template">
-    {{title}}
+    <a href="#" data-position="{{position}}" class="show">{{title}}</a>
     <a href="#" class="btn btn-danger btn-sm">remove</a>
 </script>
 
@@ -78,6 +81,11 @@
         <textarea id="event_description" class="form-control" name="description"></textarea>
     </div>
     <input type="submit" class="btn btn-primary" value="Add an event">
+</script>
+
+<script id="show-event-template" type="text/x-handlebars-template">
+    <div class="page-header"><h1>{{title}}</h1></div>
+    <div class="well well-lg">{{description}}</div>
 </script>
 
 <script id="event-removal-template" type="text/x-handlebars-template">

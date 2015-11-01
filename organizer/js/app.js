@@ -3,23 +3,14 @@
 */
 Organizer={
     initialize:function(){
-        Organizer.events=new Organizer.Events();
-        new Organizer.NewEventView();
-        new Organizer.EventsListView({
-            collection:Organizer.events
-        });
-        Organizer.events.fetch({
-            success:function(){
-            },
-            error:function(){
-                error.log("error at fetching");
-                console.error("error at programming");
-            }
-        });
         Organizer.router=new Organizer.Router();
         Backbone.history.start();
-        // Organizer.events.reset([{title:"test1"},{title:"test2"},{title:"test3"}]);
     },
+/**
+  * formatDate
+  * ==========
+  * Taken from http://stackoverflow.com/a/2315478/3802741
+  */
 formatDate:function(date, fmt) {
     function pad(value) {
         return (value.toString().length < 2) ? '0' + value : value;

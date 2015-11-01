@@ -7,7 +7,7 @@ Organizer.Event=Backbone.Model.extend({
     },
     defaults:{
         title:"",
-        description:"",
+        description:""
     },
     validate:function(attrs,options){
         console.log("to review the value:",attrs.title)
@@ -16,6 +16,7 @@ Organizer.Event=Backbone.Model.extend({
         }
     },
     localStorage:new Backbone.LocalStorage("events"),
+    idAttribute:"position",
     getTitle:function(){
         return this.get("title");
     },

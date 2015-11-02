@@ -1,25 +1,12 @@
-Organizer.ShowEventView=Backbone.View.extend({
+Organizer.ShowEventView=Organizer.ItemView.extend({
     initialize:function(){
         this.render();
-    },
-    render:function(){
-        var template=Handlebars.compile($("#show-event-template").html());
-        this.$el.html(template(this.model));
         $("#show-event").html(this.el);
-        return this;
-    }
+    },
+    template:"#show-event-template"
 });
-Organizer.NewEventView=Backbone.View.extend({
+Organizer.NewEventView=Organizer.ItemView.extend({
     tagName:"form",
-    initialize:function(){
-        this.render();
-    },
-    render:function(){
-        var template=Handlebars.compile($("#event-form-template").html());
-        this.$el.html(template());
-        $("#new-event").html(this.el);
-        return this;
-    },
     events:{
         "submit":"createEvent"
     },
@@ -50,50 +37,15 @@ Organizer.NewEventView=Backbone.View.extend({
             }
         }
         );
-    }
-});
-Organizer.EventsListView=Backbone.View.extend({
-    initialize:function(){
-        console.log("view was created",Organizer.formatDate(new Date($.now()), '%H:%m:%s'));
-        this.listenTo(this.collection,"reset",this.render);
-        this.listenTo(this.collection,"add",this.render);
-        this.listenTo(this.collection,"remove",this.render);
-        // this.stopListening(this.collection);
     },
-    /*
-     * Internal representation includes
-     *          el: the element's object (generated)
-     *          tagName: the element's nature (setting)
-     */
-    render:function(){
-        var events_elements=[]; // to optimize before #sendItToTheDOM
-        this.collection.each(function(event){
-            var eventView=new Organizer.EventView({model:event});
-            events_elements.push(eventView.render().el);
-        });
-        this.$el.html(events_elements);
-        $("#event-list").append(this.el); // :#sendItToTheDOM
-        return this;
-    },
-    tagName:"ul",
-    className:"list-group"
-    /*
-        it reconizes also: tagName and className
-    */
+    template:"#event-form-template"
 });
 
-Organizer.EventView=Backbone.View.extend({
-    render:function(){
-
-        var template=Handlebars.compile($("#event-template").html());
-        this.$el.html(template(this.model.toJSON()));
-        return this;
-    },
+Organizer.EventView=Organizer.ItemView.extend({
     tagName:"li",
     className:"list-group-item",
     events:{
-        "click a.btn-danger":"removeEvent",
-        "click .show":"showEvent"
+        "click a.btn-danger":"removeEvent"
     },
     removeEvent:function(e){
         var self=this;
@@ -107,10 +59,34 @@ Organizer.EventView=Backbone.View.extend({
             $("#theRemoveModal").modal("hide");
         });
     },
-    showEvent:function(e){
-        e.preventDefault();
-        var position=$(e.currentTarget).data("position");
-        Organizer.router.navigate("events/"+position,{trigger:true});
+    template:"#event-template"
+});
+
+Organizer.EventsListView=Organizer.ListView.extend({
+    tagName:"ul",
+    className:"list-group",
+    ItemView:Organizer.EventView
+});
+
+Organizer.EventsLayoutView=Backbone.View.extend({
+    render:function(){
+        var template=Handlebars.compile($("#index-template").html());
+        this.$el.html(template);
+
+        var newEventView=new Organizer.NewEventView();
+        var eventsListView=new Organizer.EventsListView({
+            collection:this.collection
+        });
+
+        var events=this.$("#event-list");
+        var new_event=this.$("#new-event");
+        events.append(eventsListView.render().el);
+        new_event.append(newEventView.render().el);
+
+        return this;
+    },
+    initialize:function(){
+        this.render();
     }
 
 });

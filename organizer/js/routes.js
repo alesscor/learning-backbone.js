@@ -8,10 +8,10 @@ Organizer.Router=Backbone.Router.extend({
         console.log("Greetings!!!",Organizer.formatDate(new Date($.now()), '%H:%m:%s'));
     },
     index:function(){
-        Organizer.events=new Organizer.Events();
-        new Organizer.NewEventView();
-        new Organizer.EventsListView({
-            collection:Organizer.events
+        Organizer.events=new Organizer.EventsCollection();
+        new Organizer.EventsLayoutView({
+            collection:Organizer.events,
+            el:"#index"
         });
         Organizer.events.fetch({
             success:function(){
@@ -24,10 +24,12 @@ Organizer.Router=Backbone.Router.extend({
 
     },
     showEvent:function(id){
-        Organizer.events=new Organizer.Events();
+        Organizer.events=new Organizer.EventsCollection();
         Organizer.events.fetch();
-        new Organizer.ShowEventView({model:Organizer.events.localStorage.find({id:id})});
-        // console.log(id);
+        new Organizer.ShowEventView({
+            model:Organizer.events.localStorage.find({id:id})
+        });
+        console.log(id);
     }
 
 });

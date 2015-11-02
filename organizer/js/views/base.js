@@ -43,3 +43,11 @@ Organizer.Layout=Backbone.View.extend({
         return this;
     }
 });
+
+Organizer.BaseAppLayout=Backbone.View.extend({
+    render:function(view){
+        this.$el.empty();
+        view.render();
+        this.$el.append(view.el);
+    }
+});

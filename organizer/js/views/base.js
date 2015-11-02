@@ -28,3 +28,18 @@ Organizer.ListView=Backbone.View.extend({
         return this;
     }
 });
+
+Organizer.Layout=Backbone.View.extend({
+    render:function(argument){
+        var template=Handlebars.compile($(this.template).html());
+        var self=this;
+        this.$el.html(template());
+        _.each(this.regions,function(selector,name){
+            self[name]=self.$(selector);
+        });
+        if(this.ready){
+            this.ready();
+        }
+        return this;
+    }
+});

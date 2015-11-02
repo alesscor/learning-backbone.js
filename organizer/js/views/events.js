@@ -1,8 +1,4 @@
 Organizer.ShowEventView=Organizer.ItemView.extend({
-    initialize:function(){
-        this.render();
-        $("#show-event").html(this.el);
-    },
     template:"#show-event-template"
 });
 Organizer.NewEventView=Organizer.ItemView.extend({
@@ -68,25 +64,40 @@ Organizer.EventsListView=Organizer.ListView.extend({
     ItemView:Organizer.EventView
 });
 
-Organizer.EventsLayoutView=Backbone.View.extend({
-    render:function(){
-        var template=Handlebars.compile($("#index-template").html());
-        this.$el.html(template);
-
+Organizer.EventsLayout=Organizer.Layout.extend({
+    template:"#events-layout-template",
+    regions:{
+        eventsList:"#event-list",
+        newEvent:"#new-event"
+    },
+    ready:function(){
+        // this is the callback to the inherited render
         var newEventView=new Organizer.NewEventView();
         var eventsListView=new Organizer.EventsListView({
             collection:this.collection
         });
+        this.eventsList.append(eventsListView.render().el);
+        this.newEvent.append(newEventView.render().el);
 
-        var events=this.$("#event-list");
-        var new_event=this.$("#new-event");
-        events.append(eventsListView.render().el);
-        new_event.append(newEventView.render().el);
-
-        return this;
     },
     initialize:function(){
         this.render();
     }
 
+});
+
+Organizer.ShowEventLayout=Organizer.Layout.extend({
+    initialize:function(){
+        this.render();
+    },
+    template:"#show-event-layout-template",
+    regions:{
+        event:"#event"
+    },
+    ready:function(){
+        var eventView=new Organizer.ShowEventView({
+            model:this.model
+        });
+        this.event.append(eventView.render().el);
+    }
 });

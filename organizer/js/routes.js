@@ -9,7 +9,7 @@ Organizer.Router=Backbone.Router.extend({
     },
     index:function(){
         Organizer.events=new Organizer.EventsCollection();
-        new Organizer.EventsLayoutView({
+        new Organizer.EventsLayout({
             collection:Organizer.events,
             el:"#index"
         });
@@ -26,8 +26,9 @@ Organizer.Router=Backbone.Router.extend({
     showEvent:function(id){
         Organizer.events=new Organizer.EventsCollection();
         Organizer.events.fetch();
-        new Organizer.ShowEventView({
-            model:Organizer.events.localStorage.find({id:id})
+        new Organizer.ShowEventLayout({
+            model:Organizer.events.localStorage.find({id:id}),
+            el:"#show"
         });
         console.log(id);
     }

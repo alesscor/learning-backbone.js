@@ -1,3 +1,6 @@
+Backbone.Validation.configure({
+    forceUpdate:true
+});
 _.extend(Backbone.Validation.callbacks,{
     valid:function(view, attr, selector){
         var control,group,target;
@@ -19,4 +22,4 @@ _.extend(Backbone.Validation.callbacks,{
         target=group.find(".help-block");
         target.text(error);
     }
-})
+});

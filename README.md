@@ -1,6 +1,6 @@
 # Learning Backbone.js
 
-This is to lear Backbone.js and other technologies:
+This is to learn Backbone.js and other technologies:
 
 - Using http://cdnjs.com to get libraries from a Content Delivery Network.
 - Using bootstrap-tour to provide a tour in the index page.

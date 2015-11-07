@@ -1,18 +1,15 @@
 Organizer.Event=Backbone.Model.extend({
-    initialize:function(){
-        this.on("invalid",function(model,error){
-            // console.error(error);
-            $("#"+_.keys(error)[0]).parent().addClass("has-error");
-        });
-    },
     defaults:{
         title:"",
         description:""
     },
-    validate:function(attrs,options){
-        console.log("to review the value:",attrs.title)
-        if(_.isEmpty(attrs.title)){
-            return {"event_title":"Title has to be present!!!"};
+    validation:{
+        title:{
+            required:true,
+            msg:"Please enter a title"
+        },
+        description:{
+            required:true
         }
     },
     localStorage:new Backbone.LocalStorage("events"),

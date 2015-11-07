@@ -2,6 +2,10 @@ Organizer.ShowEventView=Organizer.ItemView.extend({
     template:"#show-event-template"
 });
 Organizer.NewEventView=Organizer.ItemView.extend({
+    initialize:function(){
+        Backbone.Validation.bind(this);
+    },
+    model: new Organizer.Event(),
     tagName:"form",
     events:{
         "submit":"createEvent"
@@ -9,30 +13,25 @@ Organizer.NewEventView=Organizer.ItemView.extend({
     createEvent:function(e){
         var self=this;
         e.preventDefault();
-        // var title=this.$el.find("#event_title").val();
-        // this is a shortcut ----|
-        //                        v provided by Backbone.js
         var title=this.$("#event_title").val();
         var description=this.$("#event_description").val();
-        // builds the instance
-        var model=new Organizer.Event();
-        // console.log("model.isValid() result:",model.isValid()); // to call from other place
-        model.save({
+        this.model.set({
             title:title,
             description:description,
             position:Organizer.events.nextPosition()
-        },
-        {
-            success:function(){
-                Organizer.events.add(model);
-                self.el.reset();
-                self.$(".has-error").removeClass("has-error");
-            },
-            error:function(){
+        });
+        if(this.model.isValid(true)){
+            // saves both the model and the collection
+            Organizer.events.create(this.model.toJSON(),{
+                success:function(){
+                    self.el.reset();
+                },
+                error:function(){
 
+                }
             }
+            );
         }
-        );
     },
     template:"#event-form-template"
 });

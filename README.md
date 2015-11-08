@@ -17,7 +17,7 @@ This is to learn Backbone.js and other technologies:
     - Include reference to `handlebars.runtime.min.js` library in `index.html`.
     - Use `node.js`, `npm` and `handlebars` (v0.12.1, 2.5.1 and 4.0.4 respectively, all previously installed with handlebars installed in the local directory).
     - Make a directory named handlebars and make a text file with the name of each template, the suffix ".handlebars" and the content of its template (wrapped by `script`elements): show-event-layout-template, events-layout-template, event-template, event-form-template, show-event-template, event-removal-template.
-    - Precompile each `.handlebars` file with handlebars
+    - Precompile each `.handlebars` file with handlebars. For example `node_modules/handlebars/bin/handlebars handlebars/show-event-layout-template.handlebars -f handlebars/show-event-layout-template.js`.
     - Delete the templates inside the `index.html` file, there is a backup called `index.old.html`, it will be interesting compare the performance between optimized and not optimized versions.
     - Include each handlebars-generated file into `index.html`.
     - Replace the variable template and calls to template function with `Handlebars.templates[this.template]` function. It happens twice in `base.js` file and once in `/views/events.js` file.

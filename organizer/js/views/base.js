@@ -1,11 +1,10 @@
 Organizer.ItemView=Backbone.View.extend({
     render:function(){
-        var template=Handlebars.compile($(this.template).html());
         var data={};
         if(this.model){
             data=_.isFunction(this.model.toJSON) ? this.model.toJSON():this.model;
         }
-        this.$el.html(template(data));
+        this.$el.html(Handlebars.templates[this.template](data));
         if(!_.isUndefined(this.bindings)){
             this.stickit();
         }
@@ -34,9 +33,8 @@ Organizer.ListView=Backbone.View.extend({
 
 Organizer.Layout=Backbone.View.extend({
     render:function(argument){
-        var template=Handlebars.compile($(this.template).html());
         var self=this;
-        this.$el.html(template());
+        this.$el.html(Handlebars.templates[this.template]());
         _.each(this.regions,function(selector,name){
             self[name]=self.$(selector);
         });

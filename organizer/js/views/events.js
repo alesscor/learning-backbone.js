@@ -1,5 +1,5 @@
 Organizer.ShowEventView=Organizer.ItemView.extend({
-    template:"#show-event-template"
+    template:"show-event-template"
 });
 Organizer.NewEventView=Organizer.ItemView.extend({
     initialize:function(){
@@ -47,7 +47,7 @@ Organizer.NewEventView=Organizer.ItemView.extend({
             );
         }
     },
-    template:"#event-form-template"
+    template:"event-form-template"
 });
 
 Organizer.EventView=Organizer.ItemView.extend({
@@ -61,14 +61,13 @@ Organizer.EventView=Organizer.ItemView.extend({
         e.preventDefault();
         $("#theRemoveModal").modal({
         });
-        var template=Handlebars.compile($("#event-removal-template").html());
-        $("#theRemoveModal").html(template({meantitle:this.model.getMeanTitle()}));
+        $("#theRemoveModal").html(Handlebars.templates["event-removal-template"]({meantitle:this.model.getMeanTitle()}));
         $("#theRemoveModal #remove-event").on("click",function(e){
             self.model.destroy();
             $("#theRemoveModal").modal("hide");
         });
     },
-    template:"#event-template"
+    template:"event-template"
 });
 
 Organizer.EventsListView=Organizer.ListView.extend({
@@ -78,7 +77,7 @@ Organizer.EventsListView=Organizer.ListView.extend({
 });
 
 Organizer.EventsLayout=Organizer.Layout.extend({
-    template:"#events-layout-template",
+    template:"events-layout-template",
     regions:{
         eventsList:"#event-list",
         newEvent:"#new-event"
@@ -96,7 +95,7 @@ Organizer.EventsLayout=Organizer.Layout.extend({
 });
 
 Organizer.ShowEventLayout=Organizer.Layout.extend({
-    template:"#show-event-layout-template",
+    template:"show-event-layout-template",
     regions:{
         event:"#event"
     },

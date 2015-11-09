@@ -61,7 +61,7 @@ Organizer.EventView=Organizer.ItemView.extend({
         e.preventDefault();
         $("#theRemoveModal").modal({
         });
-        $("#theRemoveModal").html(Handlebars.templates["event-removal-template"]({meantitle:this.model.getMeanTitle()}));
+        $("#theRemoveModal").html(Handlebars.templates["event-removal-template"]({meantitle:this.model.getMeanTitle()+" ;-)"}));
         $("#theRemoveModal #remove-event").on("click",function(e){
             self.model.destroy();
             $("#theRemoveModal").modal("hide");
